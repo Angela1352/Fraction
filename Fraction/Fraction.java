@@ -1,8 +1,8 @@
 
 /**
- * This class represents a fraction with a numerator and denominator
+ * This class represents a fraction with a numerator and denominator.
  * @author Angela Chen
- * @version 1-2
+ * @version Dec. 5, 2023
  */
 
 public class Fraction {
@@ -11,17 +11,29 @@ public class Fraction {
     private int denominator;
 
     //CONSTRUCTORS
+    /**
+     * Constructs a default fraction with numerator 1 and denominator 1.
+     */
     public Fraction () {
         numerator = 1;
         denominator = 1;
     }
 
+    /**
+     * Constructs a fraction with specified numerator and denominator.
+     * @param num The numerator of the fraction.
+     * @param den The denominator of the fraction. 
+     */
     public Fraction (int num, int den) {
         numerator = num;
         denominator = den;
         Error();
     }
 
+    /**
+     * Constructs a fraction from a string.
+     * @param frac The string representation of the fraction.
+     */
     public Fraction (String frac) {
         int slash = frac.indexOf("/");
 
@@ -36,6 +48,10 @@ public class Fraction {
         }
     }
 
+    /**
+     * Constructs a fraction from another Fraction object.
+     * @param frac The fraction object to be copied.
+     */
     public Fraction (Fraction frac) {
         numerator = frac.numerator;
         denominator = frac.denominator;
@@ -44,12 +60,15 @@ public class Fraction {
 
     private void Error () {
         if (denominator == 0) {
-            System.out.print("ERROR - Denominator can't be 0 and has been changed to 1");
+            System.out.println("ERROR - Denominator can't be 0 and has been changed to 1");
             denominator = 1;
         }
     }
 
     //ACCESSOR METHODS
+    /**
+     * @return The numerator of the fraction.
+     */
     public int getNum() {
         return numerator;
     }
@@ -93,11 +112,42 @@ public class Fraction {
         int d = a.denominator * b.denominator;
         Fraction result = new Fraction(n, d);
         result.reduce();
+
+        return result;
+    }
+
+    public static Fraction divide(Fraction a, Fraction b) {
+        int n = a.numerator * b.denominator;
+        int d = a.denominator * b.numerator;
+        Fraction result = new Fraction(n, d);
+        result.reduce();
+
+        return result;
+    }
+
+    public static Fraction add(Fraction a, Fraction b) {
+        int n = a.numerator * b.denominator + b.numerator * a.denominator;
+        int d = a.denominator * b.denominator;
+        Fraction result = new Fraction(n, d);
+        result.reduce();
+
+        return result;
+    }
+
+    public static Fraction subtract(Fraction a, Fraction b) {
+        int n = a.numerator * b.denominator - b.numerator * a.denominator;
+        int d = a.denominator * b.denominator;
+        Fraction result = new Fraction(n, d);
+        result.reduce();
+
         return result;
     }
 
     //HELPER METHODS
     public int GCF(int a, int b) {
+        a = Math.abs(a);
+        b = Math.abs(b);
+        
         while (a != b) {
             if (a > b) {
                 a = a-b;
