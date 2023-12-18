@@ -37,11 +37,6 @@ public class FractionDriver {
         Fraction subtracted = Fraction.subtract(f2, f3); 
         System.out.println("Subtraction Result: " + subtracted);
 
-        //PI ESTIMATION
-        System.out.println("Result: " + "52163/16604");
-
-  
-
     }
 }
 
