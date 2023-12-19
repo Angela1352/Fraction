@@ -7,7 +7,8 @@ import java.util.Scanner;
 
 public class UsingFraction {
     public static void main (String[] args) {
-        System.out.println(estimatePI());
+        //System.out.println(estimatePI());
+        fractionQuiz();
     }
 
     public static double estimatePI() {
@@ -25,31 +26,69 @@ public class UsingFraction {
         return estimate.toDouble();
     }
 
-    public void fractionQuiz() {
+    public static void fractionQuiz() {
         Scanner in = new Scanner(System.in);
 
-        int operatorNum = (int) Math.random()*3+1;
-        String operator;
+        System.out.println("Let the Fraction Quiz Begin. Answers should be in lowest terms. Good Luck! \n");
+        boolean quit = false;
+        int correct = 0;
+        int total = 0;
 
-        System.out.println("Let the Fraction Quiz Begin  Answers should be in lowest terms. Good Luck! \n");
+        while (!quit) {
+            Fraction frac1 = new Fraction(randomFrac());
+            Fraction frac2 = new Fraction(randomFrac());
 
-        Fraction frac1 = new Fraction((int) Math.random()*9+1, (int) Math.random()*9+1);
-        Fraction frac2 = new Fraction((int) Math.random()*9+1, (int) Math.random()*9+1);
-        Fraction result = new Fraction();
+            String operator;
+            int operatorNum = (int) (Math.random()*4);
+            if (operatorNum == 0) operator = " + ";
+            else if (operatorNum == 1) operator = " - ";
+            else if (operatorNum == 2) operator = " * ";
+            else if (operatorNum == 3) operator = " / ";
+            else operator = " ERROR ";
 
-        if (operatorNum == 1) operator = " + ";
-        else if (operatorNum == 2) operator = " - ";
-        else if (operatorNum == 3) operator = " * ";
-        else if (operatorNum == 4) operator = " / ";
-        else operator = " ERROR ";
+            System.out.print(frac1 + operator + frac2 + " = ");
+            String answer = in.nextLine();
 
-        System.out.println(frac1 + operator + frac2);
-        if (operatorNum == 1) Fraction.add(frac1, frac2);
-        else if (operatorNum == 2) Fraction.subtract(frac1, frac2);
-        else if (operatorNum == 3) Fraction.multiply(frac1, frac2);
-        else if (operatorNum == 4) Fraction.divide(frac1, frac2);
+            if (answer.equals("quit")) quit = true;
+            else {
+                Fraction uAnswer = new Fraction(answer);
 
-        String answer = in.nextLine();
-        
+                Fraction cAnswer = new Fraction();
+                if (operatorNum == 0) {
+                    cAnswer = Fraction.add(frac1, frac2);
+                } else if (operatorNum == 1) {
+                    cAnswer = Fraction.subtract(frac1, frac2); 
+                } else if (operatorNum == 2) {
+                    cAnswer = Fraction.multiply(frac1, frac2);
+                } else if (operatorNum == 3) {
+                    cAnswer = Fraction.divide(frac1, frac2);                
+                }
+
+                if (checkEqual(uAnswer, cAnswer)) {
+                    System.out.println("Correct! \n");
+                    correct++;
+                } else {
+                    System.out.println("Wrong, the answer was " + cAnswer + "\n");
+                }
+                total++;
+            }
+        }
+        Fraction winLoss = new Fraction(correct, total);
+        int percent = (int) ((winLoss.toDouble()*100)+0.5);
+        System.out.println("Your win/loss ratio was " + winLoss + ", for a score of " + percent + " percent!");
+
+    }
+
+    public static Fraction randomFrac(){
+        int num = (int) (Math.random()*9)+1;
+        int denom = (int) (Math.random()*9)+1;
+        Fraction fraction = new Fraction(num, denom);
+        return fraction;
+    }
+
+    public static boolean checkEqual(Fraction f1, Fraction f2) {
+        if (f1.getNum() == f2.getNum() && f1.getDenom() == f2.getDenom()) return true;
+        else return false;
     }
 }
+
